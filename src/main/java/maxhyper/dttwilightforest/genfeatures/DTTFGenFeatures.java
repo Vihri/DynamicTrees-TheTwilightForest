@@ -6,10 +6,12 @@ import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
 
 public class DTTFGenFeatures {
 
-    public static final GenFeature UNDERGROUND_ROOTS = new UndergroundRootsGenFeature(DynamicTreesTheTwilightForest.location("underground_roots"));
+//    public static final GenFeature UNDERGROUND_ROOTS = new UndergroundRootsGenFeature(DynamicTreesTheTwilightForest.location("underground_roots"));
 
     public static void register(final Registry<GenFeature> registry) {
-        registry.registerAll(UNDERGROUND_ROOTS);
+        registry.registerAll(
+//                UNDERGROUND_ROOTS
+        );
     }
 
 

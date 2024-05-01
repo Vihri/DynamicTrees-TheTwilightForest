@@ -1,8 +1,7 @@
 {
-  "type": "dttwilightforest:mangrove",
-  "root_soil": "dttwilightforest:mangrove_roots",
+  "type": "swamp_oak",
   "family": "dttwilightforest:mangrove",
-  "tapering": 0.3,
+  "tapering": 0.1,
   "signal_energy": 12.0,
   "lowest_branch_height": 5,
   "growth_rate": 0.6,
@@ -18,6 +17,14 @@
       "properties": {
         "roots": "dttwilightforest:mangrove_roots",
         "secondary_roots": "dttwilightforest:underground_roots"
+      }
+    },
+    "bottom_flare",
+    {
+      "name": "roots",
+      "properties": {
+        "min_trunk_radius": 8,
+        "scale_factor": 12
       }
     }
   ]

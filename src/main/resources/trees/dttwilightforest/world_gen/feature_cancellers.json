@@ -1,9 +1,16 @@
 [
   {
-    "select": {"types_or": [ "swamp", "jungle" ] },
+    "select": {"name": "twilightforest:.*" },
     "cancellers": {
-      "types": [ "dthexerei:tree" ],
-      "namespaces": ["hexerei"]
+      "types": [ "tree" ],
+      "namespaces": ["twilightforest", "minecraft"]
+    }
+  },
+  {
+    "select": {"names_or": ["twilightforest:dense_forest", "twilightforest:oak_savannah"] },
+    "cancellers": {
+      "types": [ "tree", "dttwilightforest:all_trees" ],
+      "namespaces": ["twilightforest", "minecraft"]
     }
   }
 
