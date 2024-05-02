@@ -15,6 +15,7 @@ import maxhyper.dttwilightforest.canceller.DTTFTreeFeatureCanceller;
 import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
 import maxhyper.dttwilightforest.growthlogic.DTTFGrowthLogicKits;
+import maxhyper.dttwilightforest.trees.MagicFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,6 +45,7 @@ public class DTTFRegistries {
 
     @SubscribeEvent
     public static void registerFamilyTypes(final TypeRegistryEvent<Family> event) {
+        event.registerType(DynamicTreesTheTwilightForest.location("magic"), MagicFamily.TYPE);
 //        event.registerType(DynamicTreesTheTwilightForest.location("mangrove"), MangroveFamily.TYPE);
     }
 

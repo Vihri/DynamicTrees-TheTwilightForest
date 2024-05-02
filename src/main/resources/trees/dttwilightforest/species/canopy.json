@@ -18,6 +18,12 @@
       "properties": {
         "roots": "dttwilightforest:underground_roots"
       }
+    },
+    {
+      "name": "dttwilightforest:firefly",
+      "properties": {
+        "block": "twilightforest:firefly"
+      }
     }
   ]
 }

@@ -16,6 +16,12 @@
         "rotten_soil": "podzol"
       }
     },
-    "mushroom_rot"
+    "mushroom_rot",
+    {
+      "name": "dttwilightforest:magic_core",
+      "properties": {
+        "min_radius": 4
+      }
+    }
   ]
 }

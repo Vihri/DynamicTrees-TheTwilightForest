@@ -95,7 +95,7 @@
         }
       },
       "density" : [ 1 ],
-      "chance" : 1
+      "chance" : 0.4
     }
   },
   {
@@ -162,11 +162,11 @@
       "species" : {
         "random" : {
           "dttwilightforest:robust_twilight_oak" : 1,
-          "dynamictrees:oak" : 2
+          "dynamictrees:oak" : 3
         }
       },
       "density" : [ 0.01 ],
-      "chance" : 0.5
+      "chance" : 0.1
     }
   },
   {
