@@ -3,5 +3,5 @@
   "cell_kit": "dttwilightforest:darkwood",
   "leaves_texture": "twilightforest:block/darkwood_leaves",
   "smother": 12,
-  "light_requirement": 5
+  "light_requirement": 0
 }

@@ -38,7 +38,7 @@ public class FireflyGenFeature extends GenFeature {
     public GenFeatureConfiguration createDefaultConfiguration() {
         return super.createDefaultConfiguration()
                 .with(MAX_HEIGHT, 20)
-                .with(WORLDGEN_MAX_COUNT, 3)
+                .with(WORLDGEN_MAX_COUNT, 2)
                 .with(BLOCK, Blocks.TORCH)
                 .with(PLACE_CHANCE, 0.06f);
     }

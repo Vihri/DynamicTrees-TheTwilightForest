@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "twilightforest:block/mangrove_root"
+      }
+    },
+    {
+      "apply": {
+        "model": "dynamictrees:block/roots"
+      }
+    }
+  ]
+}
