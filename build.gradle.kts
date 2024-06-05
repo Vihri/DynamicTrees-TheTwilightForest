@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter
 fun property(key: String) = project.findProperty(key).toString()
 
 apply(from = "https://gist.githubusercontent.com/Harleyoc1/4d23d4e991e868d98d548ac55832381e/raw/applesiliconfg.gradle")
+apply(from = "https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemapper/main/remapper.gradle")
 
 plugins {
     id("java")
@@ -17,6 +18,7 @@ plugins {
     id("idea")
     id("maven-publish")
     id("com.matthewprenger.cursegradle") version "1.4.0"
+    id("com.harleyoconnor.autoupdatetool") version "1.0.5"
 }
 
 repositories {
@@ -89,16 +91,14 @@ dependencies {
     minecraft("net.minecraftforge:forge:$mcVersion-${property("forgeVersion")}")
 
     implementation(fg.deobf("com.ferreusveritas.dynamictrees:DynamicTrees-$mcVersion:${property("dynamicTreesVersion")}"))
-
-    implementation(fg.deobf("curse.maven:the-twilight-forest-227639:4337390"))
-
     implementation(fg.deobf("com.ferreusveritas.dynamictreesplus:DynamicTreesPlus-$mcVersion:${property("dynamicTreesPlusVersion")}"))
+    implementation(fg.deobf("curse.maven:the-twilight-forest-227639:4389567"))
 
-    runtimeOnly(fg.deobf("curse.maven:jade-324717:3970956"))
-    runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:${property("jeiVersion")}"))
+    runtimeOnly(fg.deobf("curse.maven:jade-324717:4433884"))
+    runtimeOnly(fg.deobf("curse.maven:jei-238222:4615177"))
     runtimeOnly(fg.deobf("org.squiddev:cc-tweaked-$mcVersion:${property("ccVersion")}"))
-    runtimeOnly(fg.deobf("com.harleyoconnor.suggestionproviderfix:SuggestionProviderFix-1.18.1:${property("suggestionProviderFixVersion")}"))
-    runtimeOnly(fg.deobf("vazkii.patchouli:Patchouli:${property("patchouliVersion")}"))
+    runtimeOnly(fg.deobf("com.harleyoconnor.suggestionproviderfix:SuggestionProviderFix-1.19:${property("suggestionProviderFixVersion")}"))
+    runtimeOnly(fg.deobf("curse.maven:patchouli-306770:4031402"))
 }
 
 tasks.jar {
@@ -124,6 +124,8 @@ java {
     }
 }
 
+val changelogFile = file("build/changelog.txt")
+
 curseforge {
     if (project.hasProperty("curseApiKey") && project.hasProperty("curseFileType")) {
         apiKey = property("curseApiKey")
@@ -133,7 +135,7 @@ curseforge {
 
             addGameVersion(mcVersion)
 
-            changelog = file("build/changelog.txt")
+            changelog = changelogFile
             changelogType = "markdown"
             releaseType = property("curseFileType")
 
@@ -149,6 +151,20 @@ curseforge {
     } else {
         project.logger.log(LogLevel.WARN, "API Key and file type for CurseForge not detected; uploading will be disabled.")
     }
+}
+
+val minecraftVersion = mcVersion
+
+autoUpdateTool {
+    mcVersion.set(minecraftVersion)
+    version.set(modVersion)
+    versionRecommended.set(property("versionRecommended") == "true")
+    changelogOutputFile.set(changelogFile)
+    updateCheckerFile.set(file(property("dynamictrees.version_info_repo.path") + File.separatorChar + property("updateCheckerPath")))
+}
+
+tasks.autoUpdate {
+    finalizedBy("curseforge")
 }
 
 tasks.withType<GenerateModuleMetadata> {

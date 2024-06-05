@@ -1,1 +1,1 @@
-rootProject.name = "DT The Twilight Forest"
+rootProject.name = "DT Twilight Forest"

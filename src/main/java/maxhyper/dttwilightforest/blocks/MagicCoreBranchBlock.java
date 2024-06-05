@@ -1,23 +1,19 @@
 package maxhyper.dttwilightforest.blocks;
 
-import com.ferreusveritas.dynamictrees.block.branch.BranchBlock;
 import com.ferreusveritas.dynamictrees.block.branch.ThickBranchBlock;
 import maxhyper.dttwilightforest.trees.MagicFamily;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,21 +27,24 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraft.world.level.chunk.PalettedContainerRO;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.PacketDistributor;
-import twilightforest.TFSounds;
-import twilightforest.client.particle.TFParticleType;
+import twilightforest.TFConfig;
 import twilightforest.data.tags.EntityTagGenerator;
+import twilightforest.init.BiomeKeys;
+import twilightforest.init.TFParticleType;
+import twilightforest.init.TFSounds;
 import twilightforest.item.OreMagnetItem;
 import twilightforest.network.ChangeBiomePacket;
 import twilightforest.network.ParticlePacket;
 import twilightforest.network.TFPacketHandler;
 import twilightforest.util.WorldUtil;
-import twilightforest.world.registration.biomes.BiomeKeys;
 
 import java.util.*;
 
@@ -93,15 +92,15 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand) {
-        if (!world.isClientSide && (Boolean)state.getValue(ACTIVE)) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
+        if (!world.isClientSide && state.getValue(ACTIVE)) {
             this.playSound(world, pos, rand);
             this.performTreeEffect(world, pos, rand);
             world.scheduleTick(pos, this, tickRate);
         }
     }
 
-    protected void performTreeEffect(Level world, BlockPos pos, Random rand){
+    protected void performTreeEffect(Level world, BlockPos pos, RandomSource rand){
         switch (type){
             case TIME -> performTimeEffect(world, pos, rand);
             case MINING -> performMineEffect(world, pos, rand);
@@ -110,21 +109,21 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
         }
     };
 
-    protected void playSound(Level level, BlockPos pos, Random rand) {
+    protected void playSound(Level level, BlockPos pos, RandomSource rand) {
         switch (type){
-            case TIME -> level.playSound(null, pos, TFSounds.TIME_CORE, SoundSource.BLOCKS, 0.1F, 0.5F);
-            case TRANSFORMATION -> level.playSound(null, pos, TFSounds.TRANSFORMATION_CORE, SoundSource.BLOCKS, 0.1F, rand.nextFloat() * 2F);
+            case TIME -> level.playSound(null, pos, TFSounds.TIME_CORE.get(), SoundSource.BLOCKS, 0.1F, 0.5F);
+            case TRANSFORMATION -> level.playSound(null, pos, TFSounds.TRANSFORMATION_CORE.get(), SoundSource.BLOCKS, 0.1F, rand.nextFloat() * 2F);
         }
     }
 
-    protected void performMineEffect(Level level, BlockPos pos, Random rand){
+    protected void performMineEffect(Level level, BlockPos pos, RandomSource rand){
         BlockPos dPos = WorldUtil.randomOffset(rand, pos, 32);
         int moved = OreMagnetItem.doMagnet(level, pos, dPos);
         if (moved > 0) {
-            level.playSound(null, pos, TFSounds.MAGNET_GRAB, SoundSource.BLOCKS, 0.1F, 1.0F);
+            level.playSound(null, pos, TFSounds.MAGNET_GRAB.get(), SoundSource.BLOCKS, 0.1F, 1.0F);
         }
     }
-    protected void performSortEffect(Level level, BlockPos pos, Random rand){
+    protected void performSortEffect(Level level, BlockPos pos, RandomSource rand){
         Map<IItemHandler, Vec3> inputHandlers = new HashMap<>();
         Map<IItemHandler, Vec3> outputHandlers = new HashMap<>();
 
@@ -133,7 +132,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                 BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
                 if (blockEntity != null) {
-                    blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iItemHandler -> {
+                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
                         if (Math.abs(blockPos.getX() - pos.getX()) <= 2 && Math.abs(blockPos.getY() - pos.getY()) <= 2 && Math.abs(blockPos.getZ() - pos.getZ()) <= 2) {
                             inputHandlers.put(iItemHandler, Vec3.upFromBottomCenterOf(blockPos, 1.9D));
                         } else outputHandlers.put(iItemHandler, Vec3.upFromBottomCenterOf(blockPos, 1.9D));
@@ -142,80 +141,90 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
             }
         }
 
-        level.getEntities((Entity)null, new AABB(pos).inflate(2), entity -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach(entity ->
-                entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iItemHandler ->
-                        inputHandlers.put(iItemHandler, entity.position().add(0D, entity.getBbHeight() + 0.9D, 0D))));
-
-        if (inputHandlers.isEmpty()) return;
-
-        level.getEntities((Entity)null, new AABB(pos).inflate(16), entity -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach(entity ->
-                entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iItemHandler -> {
-                    if (!inputHandlers.containsKey(iItemHandler)) outputHandlers.put(iItemHandler, entity.position().add(0D, entity.getBbHeight() + 0.9D, 0D));
-                }));
-
-        if (outputHandlers.isEmpty()) return;
-
-        for (IItemHandler inputIItemHandler : inputHandlers.keySet()) {
-            for (int i = 0; i < inputIItemHandler.getSlots(); i++) {
-                ItemStack inputStack = inputIItemHandler.extractItem(i, 1, true);
-                if (!inputStack.isEmpty()) {
-                    boolean transferred = false;
-
-                    Map<Integer, IItemHandler> outputsByCount = new HashMap<>();
-
-                    for (IItemHandler outputIItemHandler : outputHandlers.keySet()) {
-                        int count = 0;
-                        for (int j = 0; j < outputIItemHandler.getSlots(); j++) {
-                            ItemStack stack = outputIItemHandler.getStackInSlot(j);
-                            if (stack.is(inputStack.getItem())) count += stack.getCount();
-                        }
-                        if (count > 0) outputsByCount.put(count, outputIItemHandler);
+        level.getEntities((Entity)null, (new AABB(pos)).inflate(2.0), (entity) -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach((entity) -> {
+            entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent((iItemHandler) -> {
+                inputHandlers.put(iItemHandler, entity.position().add(0.0, (double)entity.getBbHeight() + 0.9, 0.0));
+            });
+        });
+        if (!inputHandlers.isEmpty()) {
+            level.getEntities((Entity)null, (new AABB(pos)).inflate(16.0), (entity) -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach((entity) -> {
+                entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent((iItemHandler) -> {
+                    if (!inputHandlers.containsKey(iItemHandler)) {
+                        outputHandlers.put(iItemHandler, entity.position().add(0.0, (double)entity.getBbHeight() + 0.9, 0.0));
                     }
 
-                    for (Integer count : outputsByCount.keySet().stream().sorted(Comparator.comparingInt(Integer::intValue).reversed()).toList()) {
-                        IItemHandler outputIItemHandler = outputsByCount.get(count);
-                        int firstProperStack = -1;
-                        for (int j = 0; j < outputIItemHandler.getSlots(); j++) {
-                            ItemStack outputStack = outputIItemHandler.getStackInSlot(j);
+                });
+            });
+            if (!outputHandlers.isEmpty()) {
+                for (IItemHandler inputIItemHandler : inputHandlers.keySet()){
+                    for(int i = 0; i < inputIItemHandler.getSlots(); ++i) {
+                        ItemStack inputStack = inputIItemHandler.extractItem(i, 1, true);
+                        if (!inputStack.isEmpty()) {
+                            boolean transferred = false;
+                            Map<Integer, IItemHandler> outputsByCount = new HashMap<>();
 
-                            if (firstProperStack == -1 && outputStack.isEmpty()) {
-                                firstProperStack = j; //We reference the index of the first empty slot, in case there is no stacks that aren't at max size
-                            } else if (ItemStack.isSameItemSameTags(inputStack, outputStack)
-                                    && outputStack.getCount() < outputStack.getMaxStackSize()
-                                    && outputStack.getCount() < outputIItemHandler.getSlotLimit(j)) {
-                                firstProperStack = j;
-                                break;
-                            }
-                        }
-                        if (firstProperStack != -1) { //If there weren't any non-full stacks, we transfer to an empty space instead
-                            ItemStack newStack = inputIItemHandler.extractItem(i, 1, false);
-                            if (!newStack.isEmpty() && outputIItemHandler.insertItem(firstProperStack, newStack, true).isEmpty()) {//TODO Check
-                                outputIItemHandler.insertItem(firstProperStack, newStack, false);
-                                transferred = true;
+                            int firstProperStack;
+                            ItemStack newStack;
+                            for (IItemHandler outputIItemHandler : outputHandlers.keySet()) {
+                                int count = 0;
 
-                                Vec3 xyz = outputHandlers.get(outputIItemHandler);
-                                Vec3 diff = inputHandlers.get(inputIItemHandler).subtract(xyz);
-
-                                for (ServerPlayer serverplayer : ((ServerLevel)level).players()) {//This is just particle math, we send a particle packet to every player in range
-                                    if (serverplayer.distanceToSqr(xyz) < 4096.0D) {
-                                        ParticlePacket particlePacket = new ParticlePacket();
-                                        double x = diff.x - 0.25D + rand.nextDouble() * 0.5D;
-                                        double y = diff.y - 1.75D + rand.nextDouble() * 0.5D;
-                                        double z = diff.z - 0.25D + rand.nextDouble() * 0.5D;
-                                        particlePacket.queueParticle(TFParticleType.SORTING_PARTICLE.get(), false, xyz, new Vec3(x, y, z).scale(1D / diff.length()));
-                                        TFPacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
+                                for(firstProperStack = 0; firstProperStack < outputIItemHandler.getSlots(); ++firstProperStack) {
+                                    newStack = outputIItemHandler.getStackInSlot(firstProperStack);
+                                    if (newStack.is(inputStack.getItem())) {
+                                        count += newStack.getCount();
                                     }
                                 }
+
+                                if (count > 0) {
+                                    outputsByCount.put(count, outputIItemHandler);
+                                }
+                            }
+
+
+                            for (IItemHandler outputIItemHandler : outputsByCount.values()){
+                                firstProperStack = -1;
+
+                                for(int j = 0; j < outputIItemHandler.getSlots(); ++j) {
+                                    ItemStack outputStack = outputIItemHandler.getStackInSlot(j);
+                                    if (firstProperStack == -1 && outputStack.isEmpty()) {
+                                        firstProperStack = j;
+                                    } else if (ItemStack.isSameItemSameTags(inputStack, outputStack) && outputStack.getCount() < outputStack.getMaxStackSize() && outputStack.getCount() < outputIItemHandler.getSlotLimit(j)) {
+                                        firstProperStack = j;
+                                        break;
+                                    }
+                                }
+
+                                if (firstProperStack != -1) {
+                                    newStack = inputIItemHandler.extractItem(i, 1, false);
+                                    if (!newStack.isEmpty() && outputIItemHandler.insertItem(firstProperStack, newStack, true).isEmpty()) {
+                                        outputIItemHandler.insertItem(firstProperStack, newStack, false);
+                                        transferred = true;
+                                        Vec3 xyz = outputHandlers.get(outputIItemHandler);
+                                        Vec3 diff = inputHandlers.get(inputIItemHandler).subtract(xyz);
+
+                                        for (ServerPlayer serverplayer : ((ServerLevel)level).players()){
+                                            if (serverplayer.distanceToSqr(xyz) < 4096.0) {
+                                                ParticlePacket particlePacket = new ParticlePacket();
+                                                double x = diff.x - 0.25 + rand.nextDouble() * 0.5;
+                                                double y = diff.y - 1.75 + rand.nextDouble() * 0.5;
+                                                double z = diff.z - 0.25 + rand.nextDouble() * 0.5;
+                                                particlePacket.queueParticle(TFParticleType.SORTING_PARTICLE.get(), false, xyz, (new Vec3(x, y, z)).scale(1.0 / diff.length()));
+                                                TFPacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (transferred) {
                                 break;
                             }
                         }
                     }
-                    if (transferred) break;
                 }
             }
         }
     }
-    protected void performTimeEffect(Level world, BlockPos pos, Random rand){
+    protected void performTimeEffect(Level world, BlockPos pos, RandomSource rand){
         int numticks = 8 * 3 * tickRate;
 
         for (int i = 0; i < numticks; i++) {
@@ -236,37 +245,42 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
             }
         }
     }
-    protected void performTransEffect(Level world, BlockPos pos, Random rand){
+    protected void performTransEffect(Level level, BlockPos pos, RandomSource rand){
         ResourceKey<Biome> target = BiomeKeys.ENCHANTED_FOREST;
-        Holder<Biome> biome = world.registryAccess().ownedRegistryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(target);
-        for (int i = 0; i < 16; i++) {
-            BlockPos dPos = WorldUtil.randomOffset(rand, pos, 16, 0, 16);
-            if (dPos.distSqr(pos) > 256.0)
-                continue;
+        Holder<Biome> biome = level.registryAccess().ownedRegistryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(target);
+        int range = TFConfig.COMMON_CONFIG.MAGIC_TREES.transformationRange.get();
 
-            if (world.getBiome(dPos).is(target))
-                continue;
+        for(int i = 0; i < 16; ++i) {
+            BlockPos dPos = WorldUtil.randomOffset(rand, pos, range, 0, range);
+            if (!(dPos.distSqr(pos) > 256.0) && !level.getBiome(dPos).is(target)) {
+                int minY = QuartPos.fromBlock(level.getMinBuildHeight());
+                int maxY = minY + QuartPos.fromBlock(level.getHeight()) - 1;
+                int x = QuartPos.fromBlock(dPos.getX());
+                int z = QuartPos.fromBlock(dPos.getZ());
+                LevelChunk chunkAt = level.getChunk(dPos.getX() >> 4, dPos.getZ() >> 4);
+                LevelChunkSection[] var14 = chunkAt.getSections();
 
-            int minY = QuartPos.fromBlock(world.getMinBuildHeight());
-            int maxY = minY + QuartPos.fromBlock(world.getHeight()) - 1;
-
-            int x = QuartPos.fromBlock(dPos.getX());
-            int z = QuartPos.fromBlock(dPos.getZ());
-
-            LevelChunk chunkAt = world.getChunk(dPos.getX() >> 4, dPos.getZ() >> 4);
-            for (LevelChunkSection section : chunkAt.getSections()) {
-                for (int dy = minY; dy < maxY; dy++) { // TODO: This probably isn't correct and isn't good for performance.
-                    int y = Mth.clamp(QuartPos.fromBlock(dy), minY, maxY);
-                    if (section.getBiomes().get(x & 3, y & 3, z & 3).is(target))
-                        continue;
-                    section.getBiomes().set(x & 3, y & 3, z & 3, biome);
+                for (LevelChunkSection section : var14) {
+                    for (int sy = 0; sy < 16; sy += 4) {
+                        int y = Mth.clamp(QuartPos.fromBlock(section.bottomBlockY() + sy), minY, maxY);
+                        if (!section.getBiomes().get(x & 3, y & 3, z & 3).is(target)) {
+                            PalettedContainerRO<Holder<Biome>> var21 = section.getBiomes();
+                            if (var21 instanceof PalettedContainer container) {
+                                container.set(x & 3, y & 3, z & 3, biome);
+                            }
+                        }
+                    }
                 }
-            }
 
-            if (world instanceof ServerLevel) {
-                sendChangedBiome(chunkAt, dPos, target);
+                if (level instanceof ServerLevel) {
+                    if (!chunkAt.isUnsaved()) {
+                        chunkAt.setUnsaved(true);
+                    }
+
+                    this.sendChangedBiome(chunkAt, dPos, target);
+                }
+                break;
             }
-            break;
         }
     }
     private void sendChangedBiome(LevelChunk chunk, BlockPos pos, ResourceKey<Biome> biome) {

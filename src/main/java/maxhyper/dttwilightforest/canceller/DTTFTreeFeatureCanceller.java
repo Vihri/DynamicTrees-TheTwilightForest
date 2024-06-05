@@ -1,5 +1,6 @@
 package maxhyper.dttwilightforest.canceller;
 
+import com.ferreusveritas.dynamictrees.api.worldgen.BiomePropertySelectors;
 import com.ferreusveritas.dynamictrees.worldgen.featurecancellation.TreeFeatureCanceller;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -18,7 +19,7 @@ public class DTTFTreeFeatureCanceller<T extends FeatureConfiguration> extends Tr
     }
 
     @Override
-    public boolean shouldCancel(ConfiguredFeature<?, ?> configuredFeature, Set<String> namespaces) {
+    public boolean shouldCancel(ConfiguredFeature<?, ?> configuredFeature, BiomePropertySelectors.NormalFeatureCancellation featureCancellations) {
         final FeatureConfiguration featureConfig = configuredFeature.config();
 
         return featureConfig instanceof TFTreeFeatureConfig;

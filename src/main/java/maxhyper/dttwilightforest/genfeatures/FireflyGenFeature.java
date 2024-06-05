@@ -8,6 +8,7 @@ import com.ferreusveritas.dynamictrees.systems.genfeature.context.PostGrowContex
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -60,7 +61,7 @@ public class FireflyGenFeature extends GenFeature {
         else return false;
     }
 
-    public boolean placeFirefly (GenFeatureConfiguration configuration, LevelAccessor level, BlockPos rootPos, int count, Random rand){
+    public boolean placeFirefly (GenFeatureConfiguration configuration, LevelAccessor level, BlockPos rootPos, int count, RandomSource rand){
         List<Pair<BlockPos, Direction>> foundValues = findValidPositions(configuration, level, rootPos);
         boolean placed = false;
         for (int i=0; i<count; i++){
