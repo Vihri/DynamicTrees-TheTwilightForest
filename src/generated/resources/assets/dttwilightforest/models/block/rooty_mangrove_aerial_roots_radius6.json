@@ -1,0 +1,9 @@
+{
+  "parent": "dynamictrees:block/smartmodel/rooty/aerial_roots_radius6",
+  "textures": {
+    "rings": "twilightforest:block/mangrove_log_top",
+    "side": "twilightforest:block/mangrove_root",
+    "overlay": "dynamictrees:block/air",
+    "overlay_end": "dynamictrees:block/air"
+  }
+}

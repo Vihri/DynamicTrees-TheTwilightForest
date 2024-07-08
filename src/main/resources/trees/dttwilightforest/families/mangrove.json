@@ -8,6 +8,10 @@
   "default_soil": "dttwilightforest:mangrove_aerial_roots",
   "primitive_root": "twilightforest:mangrove_root",
   "primitive_filled_root": "twilightforest:mangrove_root",
-  "primitive_covered_root": "grass_block",
-  "root_system_acceptable_soils": ["dirt_like", "mud_like", "sand_like"]
+  "primitive_covered_root": "dirt",
+  "root_system_acceptable_soils": ["dirt_like", "gravel_like", "sand_like"],
+  "texture_overrides": {
+    "roots_side": "twilightforest:block/mangrove_root",
+    "roots_top": "twilightforest:block/mangrove_root"
+  }
 }

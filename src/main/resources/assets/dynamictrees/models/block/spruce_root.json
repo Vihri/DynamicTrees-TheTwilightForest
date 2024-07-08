@@ -1,6 +1,6 @@
 {
   "loader": "dynamictrees:surface_root",
   "textures": {
-    "bark": "twilightforest:block/mangrove_log"
+    "bark": "block/spruce_log"
   }
 }

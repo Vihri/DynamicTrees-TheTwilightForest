@@ -1,8 +1,8 @@
 {
   "parent": "dynamictrees:block/smartmodel/sapling",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
-    "particle": "twilightforest:block/sorting_leaves",
-    "log": "twilightforest:block/sorting_log",
-    "leaves": "twilightforest:block/sorting_leaves"
+    "leaves": "twilightforest:block/sorting_leaves",
+    "log": "twilightforest:block/sorting_log"
   }
 }

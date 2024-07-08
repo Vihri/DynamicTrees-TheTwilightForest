@@ -9,7 +9,7 @@
           "dttwilightforest:dark_forest_birch" : 1
         }
       },
-      "density" : 0.5,
+      "density" : [ 1.1 ],
       "chance" : 1
     }
   },
@@ -23,7 +23,7 @@
           "dttwilightforest:dark_forest_birch" : 1
         }
       },
-      "density" : 0.5,
+      "density" : [ 1.1 ],
       "chance" : 1
     }
   },
@@ -96,38 +96,6 @@
       },
       "density" : [ 1 ],
       "chance" : 0.4
-    }
-  },
-  {
-    "select" : { "name": "twilightforest:mushroom_forest" },
-    "apply" : {
-      "species" : {
-        "random" : {
-          "dynamictrees:red_mushroom": 10,
-          "dynamictrees:brown_mushroom": 10,
-          "dttwilightforest:canopy" : 2,
-          "dynamictrees:oak" : 1,
-          "dynamictrees:birch" : 1
-        }
-      },
-      "density" : [ 1, 0.5 ],
-      "chance" : 1
-    }
-  },
-  {
-    "select" : { "name": "twilightforest:deep_mushroom_forest" },
-    "apply" : {
-      "species" : {
-        "random" : {
-          "dynamictrees:red_mushroom": 6,
-          "dynamictrees:brown_mushroom": 6,
-          "dttwilightforest:canopy" : 1,
-          "dynamictrees:oak" : 3,
-          "dynamictrees:birch" : 1
-        }
-      },
-      "density" : [ 0.1 ],
-      "chance" : 1
     }
   },
   {
@@ -207,6 +175,73 @@
       },
       "density" : [ 0.8 ],
       "chance" : 0.8
+    }
+  },
+  {
+    "select" : { "name": "twilightforest:mushroom_forest" },
+    "apply" : {
+      "species" : {
+        "random" : {
+          "dttwilightforest:canopy" : 2,
+          "dynamictrees:oak" : 3,
+          "dynamictrees:birch" : 1
+        }
+      },
+      "density" : [ 1, 0.5 ],
+      "chance" : 0.8
+    }
+  },
+  {
+    "select" : { "name": "twilightforest:dense_mushroom_forest" },
+    "apply" : {
+      "species" : {
+        "random" : {
+          "dttwilightforest:canopy" : 1,
+          "dynamictrees:oak" : 1,
+          "dynamictrees:birch" : 1
+        }
+      },
+      "density" : [ 0.1 ],
+      "chance" : 0.8
+    }
+  },
+
+
+
+  {
+    "only_if_loaded": "dynamictreesplus",
+    "select" : { "name": "twilightforest:mushroom_forest" },
+    "apply" : {
+      "species" : {
+        "random" : {
+          "dynamictreesplus:red_mushroom": 4,
+          "dynamictreesplus:brown_mushroom": 4,
+          "dynamictreesplus:mega_red_mushroom": 2,
+          "dynamictreesplus:mega_brown_mushroom": 2,
+          "dttwilightforest:canopy" : 2,
+          "dynamictrees:oak" : 3,
+          "dynamictrees:birch" : 1
+        }
+      },
+      "chance" : 1
+    }
+  },
+  {
+    "only_if_loaded": "dynamictreesplus",
+    "select" : { "name": "twilightforest:dense_mushroom_forest" },
+    "apply" : {
+      "species" : {
+        "random" : {
+          "dynamictreesplus:red_mushroom": 5,
+          "dynamictreesplus:brown_mushroom": 5,
+          "dynamictreesplus:mega_red_mushroom": 5,
+          "dynamictreesplus:mega_brown_mushroom": 5,
+          "dttwilightforest:canopy" : 1,
+          "dynamictrees:oak" : 1,
+          "dynamictrees:birch" : 1
+        }
+      },
+      "chance" : 1
     }
   }
 ]

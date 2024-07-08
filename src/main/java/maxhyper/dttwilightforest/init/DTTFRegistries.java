@@ -11,47 +11,29 @@ import com.ferreusveritas.dynamictrees.tree.family.Family;
 import com.ferreusveritas.dynamictrees.tree.species.Species;
 import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
 import maxhyper.dttwilightforest.blocks.RootSoilProperties;
-import maxhyper.dttwilightforest.canceller.DTTFTreeFeatureCanceller;
+import maxhyper.dttwilightforest.canceller.SimpleFeatureCanceller;
 import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
 import maxhyper.dttwilightforest.growthlogic.DTTFGrowthLogicKits;
 import maxhyper.dttwilightforest.trees.MagicFamily;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import twilightforest.world.components.feature.config.TFTreeFeatureConfig;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DTTFRegistries {
 
-    public static final ResourceLocation MANGROVE_RESLOC = DynamicTreesTheTwilightForest.location("mangrove_roots");
-    public static final ResourceLocation UNDERGROUND_RESLOC = DynamicTreesTheTwilightForest.location("underground_roots");
-    public static final ResourceLocation LIVE_UNDERGROUND_RESLOC = DynamicTreesTheTwilightForest.location("live_underground_roots");
-
-//    public static final Supplier<BasicRootsBlock> MANGROVE_ROOTS = Suppliers.memoize(()->new BasicRootsBlock(MANGROVE_RESLOC, BlockBehaviour.Properties.of(Material.WOOD).randomTicks()));
-//    public static final Supplier<BasicRootsBlock> UNDERGROUND_ROOTS = Suppliers.memoize(()->new BasicRootsBlock(UNDERGROUND_RESLOC, BlockBehaviour.Properties.of(Material.WOOD).randomTicks()));
-//    public static final Supplier<BasicRootsBlock> LIVE_UNDERGROUND_ROOTS = Suppliers.memoize(()->new BasicRootsBlock(LIVE_UNDERGROUND_RESLOC, BlockBehaviour.Properties.of(Material.WOOD).randomTicks()));
-
     public static void setup() {
-//        RegistryHandler.addBlock(MANGROVE_RESLOC, MANGROVE_ROOTS);
-//        RegistryHandler.addItem(MANGROVE_RESLOC, ()-> new BlockItem(MANGROVE_ROOTS.get(), new Item.Properties()));
-//
-//        RegistryHandler.addBlock(UNDERGROUND_RESLOC, UNDERGROUND_ROOTS);
-//        RegistryHandler.addItem(UNDERGROUND_RESLOC, ()-> new BlockItem(UNDERGROUND_ROOTS.get(), new Item.Properties()));
-//
-//        RegistryHandler.addBlock(LIVE_UNDERGROUND_RESLOC, LIVE_UNDERGROUND_ROOTS);
-//        RegistryHandler.addItem(LIVE_UNDERGROUND_RESLOC, ()-> new BlockItem(LIVE_UNDERGROUND_ROOTS.get(), new Item.Properties()));
     }
 
     @SubscribeEvent
     public static void registerFamilyTypes(final TypeRegistryEvent<Family> event) {
         event.registerType(DynamicTreesTheTwilightForest.location("magic"), MagicFamily.TYPE);
-//        event.registerType(DynamicTreesTheTwilightForest.location("mangrove"), MangroveFamily.TYPE);
     }
 
     @SubscribeEvent
     public static void registerSpeciesTypes(final TypeRegistryEvent<Species> event) {
- //       event.registerType(DynamicTreesTheTwilightForest.location("mangrove"), MangroveSpecies.TYPE);
     }
 
     @SubscribeEvent
@@ -59,11 +41,12 @@ public class DTTFRegistries {
         event.registerType(DynamicTreesTheTwilightForest.location("roots"), RootSoilProperties.TYPE);
     }
 
-    public static final FeatureCanceller TREE_CANCELLER = new DTTFTreeFeatureCanceller<>(DynamicTreesTheTwilightForest.location("all_trees"), TreeConfiguration.class);
+    public static final FeatureCanceller TREE_CANCELLER = new SimpleFeatureCanceller<>(DynamicTreesTheTwilightForest.location("all_trees"), TFTreeFeatureConfig.class);
+    public static final FeatureCanceller MUSHROOM_CANCELLER = new SimpleFeatureCanceller<>(DynamicTreesTheTwilightForest.location("all_mushrooms"), HugeMushroomFeatureConfiguration.class);
 
     @SubscribeEvent
     public static void onFeatureCancellerRegistry(final RegistryEvent<FeatureCanceller> event) {
-        event.getRegistry().registerAll(TREE_CANCELLER);
+        event.getRegistry().registerAll(TREE_CANCELLER, MUSHROOM_CANCELLER);
     }
 
     @SubscribeEvent
