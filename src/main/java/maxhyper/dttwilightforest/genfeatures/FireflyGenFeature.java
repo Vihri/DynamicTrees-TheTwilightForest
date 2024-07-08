@@ -1,5 +1,6 @@
 package maxhyper.dttwilightforest.genfeatures;
 
+import com.ferreusveritas.dynamictrees.api.TreeHelper;
 import com.ferreusveritas.dynamictrees.api.configuration.ConfigurationProperty;
 import com.ferreusveritas.dynamictrees.systems.genfeature.GenFeature;
 import com.ferreusveritas.dynamictrees.systems.genfeature.GenFeatureConfiguration;
@@ -22,6 +23,7 @@ import java.util.Random;
 
 public class FireflyGenFeature extends GenFeature {
 
+    public static final ConfigurationProperty<Integer> MIN_RADIUS = ConfigurationProperty.integer("min_radius");
     public static final ConfigurationProperty<Integer> MAX_HEIGHT = ConfigurationProperty.integer("max_height");
     public static final ConfigurationProperty<Integer> WORLDGEN_MAX_COUNT = ConfigurationProperty.integer("worldgen_max_count");
     public static final ConfigurationProperty<Block> BLOCK = ConfigurationProperty.block("block");
@@ -32,7 +34,7 @@ public class FireflyGenFeature extends GenFeature {
 
     @Override
     protected void registerProperties() {
-        this.register(MAX_HEIGHT, WORLDGEN_MAX_COUNT, BLOCK, PLACE_CHANCE);
+        this.register(MAX_HEIGHT, WORLDGEN_MAX_COUNT, BLOCK, PLACE_CHANCE, MIN_RADIUS);
     }
 
     @Override
@@ -41,7 +43,8 @@ public class FireflyGenFeature extends GenFeature {
                 .with(MAX_HEIGHT, 20)
                 .with(WORLDGEN_MAX_COUNT, 2)
                 .with(BLOCK, Blocks.TORCH)
-                .with(PLACE_CHANCE, 0.06f);
+                .with(PLACE_CHANCE, 0.06f)
+                .with(MIN_RADIUS, 7);
     }
 
 
@@ -68,18 +71,32 @@ public class FireflyGenFeature extends GenFeature {
             int num = rand.nextInt(foundValues.size());
             Pair<BlockPos, Direction> pair = foundValues.get(num);
             BlockState placeState = configuration.get(BLOCK).defaultBlockState();
-            if (placeState.hasProperty(DirectionalBlock.FACING))
+            if (placeState.hasProperty(DirectionalBlock.FACING)){
                 placeState = placeState.setValue(DirectionalBlock.FACING, pair.getB());
-            level.setBlock(pair.getA(), placeState, 3);
+            }
+            BlockPos placePos = pair.getA();
+            if (configuration.get(BLOCK).canSurvive(placeState, level, placePos)){
+                level.setBlock(placePos, placeState, 3);
+            }
         }
         return placed;
     }
 
     public List<Pair<BlockPos, Direction>> findValidPositions (GenFeatureConfiguration configuration, LevelAccessor level, BlockPos rootPos){
         List<Pair<BlockPos, Direction>> found = new LinkedList<>();
+        boolean branchFound = false;
         for (int i=1; i< configuration.get(MAX_HEIGHT); i++){
+            BlockPos testPos = rootPos.above(i);
+            if (TreeHelper.isBranch(level.getBlockState(testPos))
+                    //Critters can only be placed on radius 8 branches
+                    && TreeHelper.getRadius(level, testPos) >= configuration.get(MIN_RADIUS)) {
+                branchFound = true;
+            } else {
+                //We had a branch but now we no longer do, which means we got though the whole trunk
+                if (branchFound) break;
+            }
             for (Direction dir : Direction.Plane.HORIZONTAL){
-                BlockPos offsetPos = rootPos.above(i).offset(dir.getNormal());
+                BlockPos offsetPos = testPos.offset(dir.getNormal());
                 BlockState state = level.getBlockState(offsetPos);
                 if (state.getMaterial().isReplaceable()){
                     found.add(new Pair<>(offsetPos, dir));

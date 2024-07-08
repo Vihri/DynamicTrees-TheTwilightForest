@@ -1,30 +1,39 @@
 {
-  "type": "swamp_oak",
+  "type": "mangrove",
   "family": "dttwilightforest:mangrove",
-  "tapering": 0.1,
-  "signal_energy": 12.0,
-  "lowest_branch_height": 5,
+  "tapering": 0.25,
+  "root_tapering": 0.2,
+  "signal_energy": 20.0,
+  "root_signal_energy": 20.0,
+  "up_probability": 8,
+  "lowest_branch_height": 2,
   "growth_rate": 0.6,
   "leaves_properties": "dttwilightforest:mangrove",
+  "roots_growth_logic_kit": "mangrove_roots",
   "environment_factors" : {
-
+    "#forge:is_overworld": 0.75,
+    "#forge:is_cold": 0.5
   },
-  "perfect_biomes": { "types": [ "forest" ] },
+  "perfect_biomes": { "name": "twilightforest:.*swamp" },
   "primitive_sapling": "twilightforest:mangrove_sapling",
+  "sapling_shape": "slim_sapling",
+  "model_overrides": {
+    "sapling": "dynamictrees:block/smartmodel/water_sapling_thin"
+  },
+  "acceptable_soils": ["dirt_like", "mud_like", "water_like"],
+  "plantable_on_fluid": true,
   "features" : [
     {
-      "name": "dttwilightforest:underground_roots",
+      "name": "vines",
       "properties": {
-        "roots": "dttwilightforest:mangrove_roots",
-        "secondary_roots": "dttwilightforest:underground_roots"
+        "max_length": 7,
+        "quantity": 24
       }
     },
-    "bottom_flare",
     {
-      "name": "roots",
+      "name": "dttwilightforest:firefly",
       "properties": {
-        "min_trunk_radius": 8,
-        "scale_factor": 12
+        "block": "twilightforest:firefly"
       }
     }
   ]

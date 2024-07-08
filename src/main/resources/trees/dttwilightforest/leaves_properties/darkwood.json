@@ -1,7 +1,6 @@
 {
   "primitive_leaves": "twilightforest:dark_leaves",
   "cell_kit": "dttwilightforest:darkwood",
-  "leaves_texture": "twilightforest:block/darkwood_leaves",
   "smother": 12,
   "light_requirement": 0
 }
