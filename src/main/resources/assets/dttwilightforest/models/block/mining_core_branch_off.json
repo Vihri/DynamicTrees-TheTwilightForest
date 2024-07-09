@@ -3,5 +3,6 @@
   "textures": {
     "bark": "twilightforest:block/mining_log_core",
     "rings": "twilightforest:block/mining_log_top"
-  }
+  },
+  "family": "dttwilightforest:mining"
 }

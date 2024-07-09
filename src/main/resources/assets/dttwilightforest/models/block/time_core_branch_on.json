@@ -3,5 +3,6 @@
   "textures": {
     "bark": "twilightforest:block/time_log_core_on",
     "rings": "twilightforest:block/time_log_top"
-  }
+  },
+  "family": "dttwilightforest:time"
 }

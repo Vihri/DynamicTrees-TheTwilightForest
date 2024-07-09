@@ -3,5 +3,6 @@
   "textures": {
     "bark": "twilightforest:block/sorting_log_core_on",
     "rings": "twilightforest:block/sorting_log_top"
-  }
+  },
+  "family": "dttwilightforest:sorting"
 }

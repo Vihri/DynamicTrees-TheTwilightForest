@@ -7,6 +7,7 @@ import com.ferreusveritas.dynamictrees.tree.species.Species;
 import com.google.gson.JsonElement;
 import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
 import maxhyper.dttwilightforest.trees.MagicFamily;
+import maxhyper.dttwilightforest.trees.TwilightMangroveFamily;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,7 +25,8 @@ public final class RegisterJSONAppliers {
     }
 
     public static void registerFamilyAppliers(PropertyAppliers<Family, JsonElement> appliers) {
-        appliers.register("primitive_core_log", MagicFamily.class, Block.class, MagicFamily::setPrimitiveCoreLog);
+        appliers.register("primitive_core_log", MagicFamily.class, Block.class, MagicFamily::setPrimitiveCoreLog)
+                .register("primitive_grassy_root", TwilightMangroveFamily.class, Block.class, TwilightMangroveFamily::setPrimitiveRootsGrassy);
     }
     public static void registerSpeciesAppliers(PropertyAppliers<Species, JsonElement> appliers) {
 //        appliers.register("root_soil", MangroveSpecies.class, SoilProperties.class, MangroveSpecies::setDefaultSoil)

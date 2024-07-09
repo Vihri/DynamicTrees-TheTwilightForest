@@ -16,6 +16,7 @@ import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
 import maxhyper.dttwilightforest.growthlogic.DTTFGrowthLogicKits;
 import maxhyper.dttwilightforest.trees.MagicFamily;
+import maxhyper.dttwilightforest.trees.TwilightMangroveFamily;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +31,7 @@ public class DTTFRegistries {
     @SubscribeEvent
     public static void registerFamilyTypes(final TypeRegistryEvent<Family> event) {
         event.registerType(DynamicTreesTheTwilightForest.location("magic"), MagicFamily.TYPE);
+        event.registerType(DynamicTreesTheTwilightForest.location("mangrove"), TwilightMangroveFamily.TYPE);
     }
 
     @SubscribeEvent
