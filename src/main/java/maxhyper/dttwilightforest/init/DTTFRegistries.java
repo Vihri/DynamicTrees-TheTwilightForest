@@ -15,6 +15,7 @@ import maxhyper.dttwilightforest.canceller.SimpleFeatureCanceller;
 import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
 import maxhyper.dttwilightforest.growthlogic.DTTFGrowthLogicKits;
+import maxhyper.dttwilightforest.trees.GigaSpruceSpecies;
 import maxhyper.dttwilightforest.trees.MagicFamily;
 import maxhyper.dttwilightforest.trees.TwilightMangroveFamily;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
@@ -36,6 +37,7 @@ public class DTTFRegistries {
 
     @SubscribeEvent
     public static void registerSpeciesTypes(final TypeRegistryEvent<Species> event) {
+        event.registerType(DynamicTreesTheTwilightForest.location("giga_spruce"), GigaSpruceSpecies.TYPE);
     }
 
     @SubscribeEvent

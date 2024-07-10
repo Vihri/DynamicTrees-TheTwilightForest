@@ -22,6 +22,7 @@
   "common_override": { "name": "minecraft:.*giant_tree_taiga.*" },
   "perfect_biomes": { "name": "minecraft:.*giant_tree_taiga.*" },
   "mega_species": "dttwilightforest:giga_spruce",
+  "world_gen_acceptable_soils": ["snow_like"],
   "features" : [
     "conifer_topper",
     {

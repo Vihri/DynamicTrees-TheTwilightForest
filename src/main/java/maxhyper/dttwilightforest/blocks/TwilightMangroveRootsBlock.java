@@ -1,10 +1,17 @@
 package maxhyper.dttwilightforest.blocks;
 
 import com.ferreusveritas.dynamictrees.block.branch.BasicRootsBlock;
+import com.ferreusveritas.dynamictrees.block.rooty.RootyBlock;
+import com.ferreusveritas.dynamictrees.block.rooty.SoilProperties;
+import com.ferreusveritas.dynamictrees.block.rooty.SpreadableSoilProperties;
+import com.ferreusveritas.dynamictrees.tree.family.MangroveFamily;
 import maxhyper.dttwilightforest.trees.TwilightMangroveFamily;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.IPlantable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -29,7 +37,7 @@ public class TwilightMangroveRootsBlock extends BasicRootsBlock {
     public static final BooleanProperty GRASSY = BooleanProperty.create("grassy");
 
     public TwilightMangroveRootsBlock(ResourceLocation name, Properties properties) {
-        super(name, properties);
+        super(name, properties.randomTicks());
         registerDefaultState(defaultBlockState().setValue(GRASSY, false));
     }
 
@@ -38,10 +46,14 @@ public class TwilightMangroveRootsBlock extends BasicRootsBlock {
        builder.add(GRASSY);
     }
 
+    @Override
+    public TwilightMangroveFamily getFamily() {
+        return (TwilightMangroveFamily)super.getFamily();
+    }
+
     private Optional<Block> getPrimitiveGrassIfGrassy (BlockState state){
-        if (isFullBlock(state) && getFamily() instanceof TwilightMangroveFamily tmf
-                && state.hasProperty(GRASSY) && state.getValue(GRASSY)){
-            return tmf.getPrimitiveGrassyRoots();
+        if (isFullBlock(state) && state.hasProperty(GRASSY) && state.getValue(GRASSY)){
+            return getFamily().getPrimitiveGrassyRoots();
         }
         return Optional.empty();
     }
@@ -60,7 +72,7 @@ public class TwilightMangroveRootsBlock extends BasicRootsBlock {
             this.spawnDestroyParticles(level, player, pos, state);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             Block primitive = getPrimitiveAny(state);
-            if (!player.isCreative() && primitive != null) dropResources(primitive.defaultBlockState(), level, pos);
+            if (!player.isCreative() && primitive != null) dropResources(primitive.defaultBlockState(), level, pos, null, player, player.getMainHandItem());
             return false;
         }
         return this.removedByEntity(state, level, pos, player);
@@ -71,23 +83,53 @@ public class TwilightMangroveRootsBlock extends BasicRootsBlock {
         int rad = super.setRadius(level, pos, radius, originDir, flags);
         BlockState newBranchState = level.getBlockState(pos);
         if (newBranchState.is(this) && newBranchState.getValue(LAYER) == Layer.COVERED){
-            updateIsGrassy(level, pos, newBranchState, flags);
+            level.setBlock(pos, newBranchState.setValue(GRASSY, canBeGrassy(level, pos)), flags);
         }
         return rad;
     }
 
-    @Override
-    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-        //if (pFromPos == pPos.above()){
-            updateIsGrassy(pLevel, pPos, pState, 3);
-        //}
-    }
-
-    protected void updateIsGrassy(LevelAccessor level, BlockPos pos, BlockState branchState, int flags){
+    protected boolean canBeGrassy(LevelAccessor level, BlockPos pos) {
         BlockPos upPos = pos.above();
         BlockState upState = level.getBlockState(upPos);
-        boolean exposed = !upState.isCollisionShapeFullBlock(level, upPos) && upState.getFluidState().isEmpty();
-        level.setBlock(pos, branchState.setValue(GRASSY, exposed), flags);
+        return !upState.isCollisionShapeFullBlock(level, upPos) && upState.getFluidState().isEmpty();
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        super.randomTick(state, level, pos, random);
+        //if it's not covered don't tick.
+        if (!state.is(this) || state.getValue(LAYER) != Layer.COVERED) return;
+        int requiredLight = getFamily().getGrassSpreadRequiredLight();
+        //this is a similar behaviour to vanilla grass spreading but inverted to be handled by the dirt block
+        if (!level.isClientSide) {
+            if (!level.isAreaLoaded(pos, 3)) {
+                return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
+            }
+            if (!canBeGrassy(level, pos)){
+                level.setBlock(pos, state.setValue(GRASSY, false), 3);
+            } else if (level.getMaxLocalRawBrightness(pos.above()) >= requiredLight) {
+                for (int i = 0; i < 4; ++i) {
+                    BlockPos thatPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+
+                    if (!level.hasChunkAt(thatPos)) { return; }
+                    BlockState thatState = level.getBlockState(thatPos);
+
+                    Block block = getFamily().getPrimitiveGrassyRoots().orElse(null);
+                    if (block != null && thatState.getBlock() == block) {
+                        level.setBlock(pos, state.setValue(GRASSY, true), 3);
+                        return;
+                    }
+                }
+            }
+        }
+
+    }
+
+    //to-do: port to base DT
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
+        return super.canSustainPlant(state, world, pos, facing, plantable)
+                || (state.getValue(LAYER) == Layer.COVERED);
     }
 
     @Override

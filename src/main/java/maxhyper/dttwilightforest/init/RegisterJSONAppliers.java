@@ -26,7 +26,8 @@ public final class RegisterJSONAppliers {
 
     public static void registerFamilyAppliers(PropertyAppliers<Family, JsonElement> appliers) {
         appliers.register("primitive_core_log", MagicFamily.class, Block.class, MagicFamily::setPrimitiveCoreLog)
-                .register("primitive_grassy_root", TwilightMangroveFamily.class, Block.class, TwilightMangroveFamily::setPrimitiveRootsGrassy);
+                .register("primitive_grassy_root", TwilightMangroveFamily.class, Block.class, TwilightMangroveFamily::setPrimitiveRootsGrassy)
+                .register("grass_spread_required_light", TwilightMangroveFamily.class, Integer.class, TwilightMangroveFamily::setGrassSpreadRequiredLight);
     }
     public static void registerSpeciesAppliers(PropertyAppliers<Species, JsonElement> appliers) {
 //        appliers.register("root_soil", MangroveSpecies.class, SoilProperties.class, MangroveSpecies::setDefaultSoil)

@@ -43,4 +43,14 @@ public class TwilightMangroveFamily extends MangroveFamily {
         super.setPrimitiveRoots(primitiveRoots);
         setPrimitiveRootsFilled(primitiveRoots);
     }
+
+    private int grassSpreadRequiredLight = 9;
+
+    public void setGrassSpreadRequiredLight(int grassSpreadRequiredLight) {
+        this.grassSpreadRequiredLight = grassSpreadRequiredLight;
+    }
+
+    public int getGrassSpreadRequiredLight() {
+        return grassSpreadRequiredLight;
+    }
 }
