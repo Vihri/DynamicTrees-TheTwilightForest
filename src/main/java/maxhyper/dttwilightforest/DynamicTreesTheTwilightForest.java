@@ -8,6 +8,7 @@ import com.ferreusveritas.dynamictrees.tree.family.Family;
 import com.ferreusveritas.dynamictrees.tree.species.Species;
 import maxhyper.dttwilightforest.init.DTTFClient;
 import maxhyper.dttwilightforest.init.DTTFRegistries;
+import maxhyper.dttwilightforest.loot.LootModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,9 +29,7 @@ public class DynamicTreesTheTwilightForest {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::gatherData);
 
-//        if (ModList.get().isLoaded("dynamictreesplus")){
-//            modEventBus.register(PlusRegistries.class);
-//        }
+        LootModifiers.register(modEventBus);
 
         RegistryHandler.setup(MOD_ID);
 

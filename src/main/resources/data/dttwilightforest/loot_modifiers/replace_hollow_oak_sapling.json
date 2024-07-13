@@ -1,0 +1,16 @@
+{
+  "type": "dttwilightforest:replace_item",
+  "conditions": [
+    {
+      "condition": "minecraft:alternative",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "twilightforest:structures/tree_cache"
+        }
+      ]
+    }
+  ],
+  "old_item": "twilightforest:hollow_oak_sapling",
+  "new_item": "dttwilightforest:robust_twilight_oak_seed"
+}
