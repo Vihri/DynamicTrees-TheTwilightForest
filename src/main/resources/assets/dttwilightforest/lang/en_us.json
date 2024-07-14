@@ -35,5 +35,10 @@
   "item.dttwilightforest.mining_seed":"Miner's Seed",
   "item.dttwilightforest.sorting_seed":"Sorting Seed",
   "item.dttwilightforest.time_seed":"Seed of Time",
-  "item.dttwilightforest.transformation_seed":"Seed of Transformation"
+  "item.dttwilightforest.transformation_seed":"Seed of Transformation",
+
+
+
+  "species.dttwilightforest.canopy_red_mushroom":"Canopy Red Mushroom",
+  "species.dttwilightforest.canopy_brown_mushroom":"Canopy Brown Mushroom"
 }

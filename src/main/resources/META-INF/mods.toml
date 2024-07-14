@@ -40,7 +40,7 @@ Compatibility Mod between Dynamic trees and The Twilight Forest
 [[dependencies.dttwilightforest]]
     modId="dynamictreesplus"
     mandatory=false
-    versionRange="[1.1.0,)"
+    versionRange="[1.1.5,)"
     ordering="AFTER"
     side="BOTH"
 

@@ -11,12 +11,6 @@
   "perfect_biomes": { "types": [ "forest" ] },
   "primitive_sapling": "twilightforest:transformation_sapling",
   "features" : [
-    {
-      "name": "rot_soil",
-      "properties": {
-        "rotten_soil": "podzol"
-      }
-    },
     "mushroom_rot",
     {
       "name": "dttwilightforest:magic_core",

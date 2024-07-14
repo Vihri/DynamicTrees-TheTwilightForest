@@ -10,7 +10,6 @@ import com.ferreusveritas.dynamictrees.systems.genfeature.GenFeature;
 import com.ferreusveritas.dynamictrees.tree.family.Family;
 import com.ferreusveritas.dynamictrees.tree.species.Species;
 import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
-import maxhyper.dttwilightforest.blocks.RootSoilProperties;
 import maxhyper.dttwilightforest.canceller.SimpleFeatureCanceller;
 import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
@@ -42,7 +41,7 @@ public class DTTFRegistries {
 
     @SubscribeEvent
     public static void registerSoilPropertiesTypes(final TypeRegistryEvent<SoilProperties> event) {
-        event.registerType(DynamicTreesTheTwilightForest.location("roots"), RootSoilProperties.TYPE);
+        //event.registerType(DynamicTreesTheTwilightForest.location("uberous_soil"), UberousSoilProperties.TYPE);
     }
 
     public static final FeatureCanceller TREE_CANCELLER = new SimpleFeatureCanceller<>(DynamicTreesTheTwilightForest.location("all_trees"), TFTreeFeatureConfig.class);

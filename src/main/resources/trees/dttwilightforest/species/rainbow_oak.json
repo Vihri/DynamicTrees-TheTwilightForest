@@ -12,6 +12,7 @@
   "generate_sapling": true,
   "primitive_sapling": "twilightforest:rainbow_oak_sapling",
   "features" : [
+    "dttwilightforest:underground_roots",
     {
       "name": "rot_soil",
       "properties": {

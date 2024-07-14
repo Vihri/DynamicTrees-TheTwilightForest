@@ -7,11 +7,13 @@ import com.ferreusveritas.dynamictrees.block.rooty.SoilProperties;
 import com.ferreusveritas.dynamictrees.tree.family.Family;
 import com.ferreusveritas.dynamictrees.tree.species.Species;
 import maxhyper.dttwilightforest.init.DTTFClient;
+import maxhyper.dttwilightforest.init.DTTFPlusRegistries;
 import maxhyper.dttwilightforest.init.DTTFRegistries;
 import maxhyper.dttwilightforest.loot.LootModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -28,6 +30,10 @@ public class DynamicTreesTheTwilightForest {
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::gatherData);
+
+        if (ModList.get().isLoaded("dynamictreesplus")){
+            modEventBus.register(DTTFPlusRegistries.class);
+        }
 
         LootModifiers.register(modEventBus);
 

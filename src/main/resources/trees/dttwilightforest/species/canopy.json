@@ -14,16 +14,11 @@
   "primitive_sapling": "twilightforest:canopy_sapling",
   "features" : [
     {
-      "name": "dttwilightforest:underground_roots",
-      "properties": {
-        "roots": "dttwilightforest:underground_roots"
-      }
-    },
-    {
       "name": "dttwilightforest:firefly",
       "properties": {
         "block": "twilightforest:firefly"
       }
-    }
+    },
+    "dttwilightforest:underground_roots"
   ]
 }

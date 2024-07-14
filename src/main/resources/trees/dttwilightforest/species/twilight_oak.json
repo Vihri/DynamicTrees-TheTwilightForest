@@ -10,6 +10,7 @@
   "perfect_biomes": { "types": [ "forest" ] },
   "primitive_sapling": "twilightforest:twilight_oak_sapling",
   "features" : [
+    "dttwilightforest:underground_roots",
     {
       "name": "rot_soil",
       "properties": {

@@ -3,9 +3,9 @@ package maxhyper.dttwilightforest.blocks;
 import com.ferreusveritas.dynamictrees.block.branch.BasicRootsBlock;
 import net.minecraft.resources.ResourceLocation;
 
-public class TwilightLiverootRootsBlock extends BasicRootsBlock {
+public class TwilightRootsBlock extends BasicRootsBlock {
 
-    public TwilightLiverootRootsBlock(ResourceLocation name, Properties properties) {
+    public TwilightRootsBlock(ResourceLocation name, Properties properties) {
         super(name, properties);
     }
 
