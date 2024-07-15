@@ -2,7 +2,10 @@ package maxhyper.dttwilightforest.blocks;
 
 import com.ferreusveritas.dynamictrees.block.branch.ThickBranchBlock;
 import maxhyper.dttwilightforest.trees.MagicFamily;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -37,16 +40,17 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.PacketDistributor;
 import twilightforest.TFConfig;
 import twilightforest.data.tags.EntityTagGenerator;
-import twilightforest.init.BiomeKeys;
+import twilightforest.init.TFBiomes;
 import twilightforest.init.TFParticleType;
 import twilightforest.init.TFSounds;
 import twilightforest.item.OreMagnetItem;
-import twilightforest.network.ChangeBiomePacket;
 import twilightforest.network.ParticlePacket;
 import twilightforest.network.TFPacketHandler;
 import twilightforest.util.WorldUtil;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MagicCoreBranchBlock extends ThickBranchBlock {
 
@@ -246,8 +250,8 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
         }
     }
     protected void performTransEffect(Level level, BlockPos pos, RandomSource rand){
-        ResourceKey<Biome> target = BiomeKeys.ENCHANTED_FOREST;
-        Holder<Biome> biome = level.registryAccess().ownedRegistryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(target);
+        ResourceKey<Biome> target = TFBiomes.ENCHANTED_FOREST;
+        Holder<Biome> biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(target);
         int range = TFConfig.COMMON_CONFIG.MAGIC_TREES.transformationRange.get();
 
         for(int i = 0; i < 16; ++i) {
@@ -259,13 +263,17 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                 int z = QuartPos.fromBlock(dPos.getZ());
                 LevelChunk chunkAt = level.getChunk(dPos.getX() >> 4, dPos.getZ() >> 4);
                 LevelChunkSection[] var14 = chunkAt.getSections();
+                int var15 = var14.length;
 
-                for (LevelChunkSection section : var14) {
-                    for (int sy = 0; sy < 16; sy += 4) {
-                        int y = Mth.clamp(QuartPos.fromBlock(section.bottomBlockY() + sy), minY, maxY);
+                for(int var16 = 0; var16 < var15; ++var16) {
+                    LevelChunkSection section = var14[var16];
+
+                    for(int sy = 0; sy < 16; sy += 4) {
+                        int y = Mth.clamp(QuartPos.fromBlock(chunkAt.getMinSection() + sy), minY, maxY);
                         if (!section.getBiomes().get(x & 3, y & 3, z & 3).is(target)) {
                             PalettedContainerRO<Holder<Biome>> var21 = section.getBiomes();
-                            if (var21 instanceof PalettedContainer container) {
+                            if (var21 instanceof PalettedContainer) {
+                                PalettedContainer<Holder<Biome>> container = (PalettedContainer)var21;
                                 container.set(x & 3, y & 3, z & 3, biome);
                             }
                         }
@@ -273,19 +281,17 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                 }
 
                 if (level instanceof ServerLevel) {
+                    ServerLevel server = (ServerLevel)level;
                     if (!chunkAt.isUnsaved()) {
                         chunkAt.setUnsaved(true);
                     }
 
-                    this.sendChangedBiome(chunkAt, dPos, target);
+                    server.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunkAt));
                 }
                 break;
             }
         }
-    }
-    private void sendChangedBiome(LevelChunk chunk, BlockPos pos, ResourceKey<Biome> biome) {
-        ChangeBiomePacket message = new ChangeBiomePacket(pos, biome);
-        TFPacketHandler.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> chunk), message);
+
     }
 
     @Override

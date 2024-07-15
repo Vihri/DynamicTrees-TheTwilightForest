@@ -98,7 +98,7 @@ public class FireflyGenFeature extends GenFeature {
             for (Direction dir : Direction.Plane.HORIZONTAL){
                 BlockPos offsetPos = testPos.offset(dir.getNormal());
                 BlockState state = level.getBlockState(offsetPos);
-                if (state.getMaterial().isReplaceable()){
+                if (state.canBeReplaced()){
                     found.add(new Pair<>(offsetPos, dir));
                 }
             }
