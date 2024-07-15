@@ -1,0 +1,15 @@
+{
+  "primitive_cap": "twilightforest:huge_mushgloom",
+  "material_color": "COLOR_ORANGE",
+  "age_zero_shape": "dttwilightforest:mushgloom_age0",
+  "light": 5,
+  "model_overrides": {
+    "outside_face": "twilightforest:block/huge_mushgloom_outside",
+    "inside_face": "twilightforest:block/huge_mushgloom_inside",
+    "cap_center_age_0_parent": "dttwilightforest:block/tall_slab"
+  },
+  "texture_overrides": {
+    "outside_face": "minecraft:block/huge_gloom_cap",
+    "inside_face": "twilightforest:block/huge_gloom_inside"
+  }
+}

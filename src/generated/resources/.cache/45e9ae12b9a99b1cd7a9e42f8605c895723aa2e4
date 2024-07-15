@@ -1,4 +1,4 @@
-// 1.19.2	2024-07-08T16:49:57.8680653	Item Models: dttwilightforest
+// 1.19.2	2024-07-14T13:35:47.7752453	Item Models: dttwilightforest
 07d28b18b2bb4f14b0990482205194039aa0251e assets/dttwilightforest/models/item/canopy_branch.json
 42dd88c732c62209d0c3c26512cf5745da340177 assets/dttwilightforest/models/item/canopy_seed.json
 acac1ec572af2729e636d6faeaff8c01f0bafac3 assets/dttwilightforest/models/item/darkwood_branch.json
@@ -8,6 +8,8 @@ acac1ec572af2729e636d6faeaff8c01f0bafac3 assets/dttwilightforest/models/item/dar
 9f2509cc1635e44746338bef3272fced5c0f00ca assets/dttwilightforest/models/item/mangrove_seed.json
 eb7c9d50b57a2f1e5036e40430fa481b71ab76df assets/dttwilightforest/models/item/mining_branch.json
 fcfed98ecb82f2fa4f18b341f4df72425927dd16 assets/dttwilightforest/models/item/mining_seed.json
+ea475607205ada87bcd217a13c74986ff4adcb23 assets/dttwilightforest/models/item/mushgloom_branch.json
+cbce1644b1f2c5581b50f4628592cddcbda83920 assets/dttwilightforest/models/item/mushgloom_seed.json
 fe9ab985a6c7b93b077664f9c100cb9e3a807699 assets/dttwilightforest/models/item/rainbow_oak_seed.json
 e7cc47fccc12cf8ccf68c8c854008f1a99d4a601 assets/dttwilightforest/models/item/robust_twilight_oak_seed.json
 63d934f0ac7dd259754f8f168d4aaff2170b8230 assets/dttwilightforest/models/item/sorting_branch.json

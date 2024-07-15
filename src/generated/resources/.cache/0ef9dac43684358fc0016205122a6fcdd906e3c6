@@ -1,4 +1,4 @@
-// 1.19.2	2024-07-08T16:49:57.8722992	dttwilightforest
+// 1.19.2	2024-07-14T13:35:47.7732478	dttwilightforest
 bb99741294db0155d3e214084770d15db69711d5 data/dttwilightforest/loot_tables/blocks/canopy_leaves.json
 b66a80aea3fdfa42b761db95bc8c4c29e953b3cd data/dttwilightforest/loot_tables/blocks/darkwood_leaves.json
 9ad342c0f4b8bca70c6db531fd160f9a4faf07e7 data/dttwilightforest/loot_tables/blocks/dark_forest_birch_leaves.json
@@ -15,6 +15,7 @@ beafc0a26ff6388c985ee99291150c37451d4949 data/dttwilightforest/loot_tables/block
 d0681283db1a9bb5bcfa1459b5cfaadba050703c data/dttwilightforest/loot_tables/trees/branches/darkwood.json
 5a98d756f0f1f18cce3e30a3fedba3b6a9f59fd4 data/dttwilightforest/loot_tables/trees/branches/mangrove.json
 b59c6af0cd8a0100b350d4edef20aecc018f51f3 data/dttwilightforest/loot_tables/trees/branches/mining.json
+3919d90a1908252eb7e05709c9ab0dfe40857ea1 data/dttwilightforest/loot_tables/trees/branches/mushgloom.json
 624e7222f79193e4b7de3ba10bb554dfc700d4a9 data/dttwilightforest/loot_tables/trees/branches/sorting.json
 22d04f5e793f043e1429eadb79baf314af078f8a data/dttwilightforest/loot_tables/trees/branches/stripped_canopy.json
 f777e6f722c0383ff9816622eae33c5759fbd554 data/dttwilightforest/loot_tables/trees/branches/stripped_darkwood.json
@@ -44,6 +45,7 @@ db4be88e862069adf4cd9cc553385af59715851c data/dttwilightforest/loot_tables/trees
 4e04964c002c8a8ccbf406285111c16a95784343 data/dttwilightforest/loot_tables/trees/voluntary/darkwood.json
 617f8e0c55f3fd77a36bb21d640cb3e03ce70f1c data/dttwilightforest/loot_tables/trees/voluntary/mangrove.json
 201f87edc80adb8a08a7eb790619cfd299af91eb data/dttwilightforest/loot_tables/trees/voluntary/mining.json
+20b761073a3f0251902533bfaa6634b0fa6ab903 data/dttwilightforest/loot_tables/trees/voluntary/mushgloom.json
 4d81e476a757b2559462246e462f28dfe0e89435 data/dttwilightforest/loot_tables/trees/voluntary/rainbow_oak.json
 059c100ee185d4605596e305d713890756a85b3b data/dttwilightforest/loot_tables/trees/voluntary/robust_twilight_oak.json
 5c7c49454d85e4f56e2bffcad06dbcab1c1c20b2 data/dttwilightforest/loot_tables/trees/voluntary/sorting.json

@@ -38,8 +38,6 @@ public class DynamicTreesTheTwilightForest {
         LootModifiers.register(modEventBus);
 
         RegistryHandler.setup(MOD_ID);
-
-        DTTFRegistries.setup();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -47,7 +45,10 @@ public class DynamicTreesTheTwilightForest {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        DTTFRegistries.setup();
+        if (ModList.get().isLoaded("dynamictreesplus")){
+            DTTFPlusRegistries.setup();
+        }
     }
 
     private void gatherData(final GatherDataEvent event) {
