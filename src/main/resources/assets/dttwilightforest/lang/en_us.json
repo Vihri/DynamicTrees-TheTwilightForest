@@ -37,8 +37,9 @@
   "item.dttwilightforest.time_seed":"Seed of Time",
   "item.dttwilightforest.transformation_seed":"Seed of Transformation",
 
-
-
+  "block.dttwilightforest.mushgloom_branch":"Mushgloom",
+  "species.dttwilightforest.mushgloom":"Mushgloom",
   "species.dttwilightforest.canopy_red_mushroom":"Canopy Red Mushroom",
-  "species.dttwilightforest.canopy_brown_mushroom":"Canopy Brown Mushroom"
+  "species.dttwilightforest.canopy_brown_mushroom":"Canopy Brown Mushroom",
+  "item.dttwilightforest.mushgloom_seed":"Mushgloom Cap"
 }

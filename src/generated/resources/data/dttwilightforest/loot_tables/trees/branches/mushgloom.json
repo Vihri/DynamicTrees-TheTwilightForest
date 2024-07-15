@@ -2,6 +2,7 @@
   "type": "dynamictrees:branches",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -14,28 +15,24 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "twilightforest:huge_mushgloom_stem"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
+          "conditions": [
             {
-              "function": "dynamictrees:multiply_sticks_count"
-            },
-            {
-              "function": "minecraft:explosion_decay"
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
             }
           ],
-          "name": "minecraft:stick"
+          "name": "twilightforest:huge_mushgloom_stem"
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ]
 }
