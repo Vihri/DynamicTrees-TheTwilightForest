@@ -20,5 +20,9 @@
       }
     },
     "dttwilightforest:underground_roots"
-  ]
+  ],
+  "lang_overrides": {
+    "species": "Canopy Tree",
+    "seed": "Canopy Tree Seed"
+  }
 }

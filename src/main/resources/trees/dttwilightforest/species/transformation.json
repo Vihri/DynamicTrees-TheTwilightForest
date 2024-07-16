@@ -10,6 +10,7 @@
   },
   "perfect_biomes": { "types": [ "forest" ] },
   "primitive_sapling": "twilightforest:transformation_sapling",
+  "drop_seeds": false,
   "features" : [
     "mushroom_rot",
     {
@@ -19,5 +20,8 @@
         "height": 4
       }
     }
-  ]
+  ],
+  "lang_overrides": {
+    "seed": "Seed of Transformation"
+  }
 }

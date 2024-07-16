@@ -20,5 +20,8 @@
       }
     },
     "mushroom_rot"
-  ]
+  ],
+  "lang_overrides": {
+    "seed": "Rainbow Oak Acorn"
+  }
 }

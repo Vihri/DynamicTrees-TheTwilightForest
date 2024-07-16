@@ -5,5 +5,8 @@
   "primitive_log": "twilightforest:mining_log",
   "primitive_stripped_log": "twilightforest:stripped_mining_log",
   "max_branch_radius": 8,
-  "primitive_core_log": "twilightforest:mining_log_core"
+  "primitive_core_log": "twilightforest:mining_log_core",
+  "lang_overrides": {
+    "branch": "Tree of Mining"
+  }
 }

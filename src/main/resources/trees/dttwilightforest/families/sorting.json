@@ -5,5 +5,8 @@
   "primitive_log": "twilightforest:sorting_log",
   "primitive_stripped_log": "twilightforest:stripped_sorting_log",
   "max_branch_radius": 8,
-  "primitive_core_log": "twilightforest:sorting_log_core"
+  "primitive_core_log": "twilightforest:sorting_log_core",
+  "lang_overrides": {
+    "branch": "Tree of Sorting"
+  }
 }

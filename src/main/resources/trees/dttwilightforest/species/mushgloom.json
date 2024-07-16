@@ -26,5 +26,11 @@
   "sapling_shape": "dttwilightforest:round_short_mushroom",
   "acceptable_soils": [],
   "max_light_for_planting": 16,
-  "acceptable_growth_blocks": ["twilightforest:uberous_soil"]
+  "acceptable_growth_blocks": ["twilightforest:uberous_soil"],
+  "model_overrides": {
+    "sapling": "dttwilightforest:block/smartmodel/mushgloom_sapling"
+  },
+  "lang_overrides": {
+    "seed": "Mushgloom Cap"
+  }
 }

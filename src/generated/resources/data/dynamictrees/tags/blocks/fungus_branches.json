@@ -1,8 +1,5 @@
 {
   "values": [
-    {
-      "id": "dttwilightforest:mushgloom_branch",
-      "required": false
-    }
+    "dttwilightforest:mushgloom_branch"
   ]
 }

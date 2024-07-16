@@ -15,5 +15,9 @@
   "texture_overrides": {
     "roots_side": "twilightforest:block/mangrove_root",
     "roots_top": "twilightforest:block/mangrove_root"
+  },
+  "lang_overrides": {
+    "branch": "Twilight Mangrove Tree",
+    "roots": "Twilight Mangrove Tree"
   }
 }

@@ -1,7 +1,0 @@
-{
-  "loader": "dynamictrees:branch",
-  "textures": {
-    "bark": "twilightforest:block/root",
-    "rings": "twilightforest:block/root"
-  }
-}

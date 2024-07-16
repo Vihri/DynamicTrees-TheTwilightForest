@@ -2,11 +2,11 @@
   "type": "dttwilightforest:replace_item",
   "conditions": [
     {
-      "condition": "minecraft:alternative",
+      "condition": "minecraft:any_of",
       "terms": [
         {
           "condition": "forge:loot_table_id",
-          "loot_table_id": "twilightforest:structures/tree_cache"
+          "loot_table_id": "twilightforest:chests/tree_cache"
         }
       ]
     }

@@ -18,5 +18,9 @@
       }
     },
     "mushroom_rot"
-  ]
+  ],
+  "lang_overrides": {
+    "species": "Sickly Twilight Oak",
+    "seed": "Sickly Twilight Oak Acorn"
+  }
 }

@@ -1,8 +1,0 @@
-{
-  "parent": "dttwilightforest:block/tall_slab",
-  "textures": {
-    "bottom": "twilightforest:block/huge_gloom_inside",
-    "top": "twilightforest:block/huge_gloom_cap",
-    "side": "twilightforest:block/huge_gloom_cap"
-  }
-}

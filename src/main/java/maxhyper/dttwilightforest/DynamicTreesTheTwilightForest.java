@@ -6,6 +6,7 @@ import com.ferreusveritas.dynamictrees.block.leaves.LeavesProperties;
 import com.ferreusveritas.dynamictrees.block.rooty.SoilProperties;
 import com.ferreusveritas.dynamictrees.tree.family.Family;
 import com.ferreusveritas.dynamictrees.tree.species.Species;
+import com.ferreusveritas.dynamictreesplus.block.mushroom.CapProperties;
 import maxhyper.dttwilightforest.init.DTTFClient;
 import maxhyper.dttwilightforest.init.DTTFPlusRegistries;
 import maxhyper.dttwilightforest.init.DTTFRegistries;
@@ -56,7 +57,9 @@ public class DynamicTreesTheTwilightForest {
                 SoilProperties.REGISTRY,
                 Family.REGISTRY,
                 Species.REGISTRY,
-                LeavesProperties.REGISTRY);
+                LeavesProperties.REGISTRY
+                , CapProperties.REGISTRY
+        );
     }
 
     public static ResourceLocation location(final String path) {

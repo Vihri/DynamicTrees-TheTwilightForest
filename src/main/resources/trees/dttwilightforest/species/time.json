@@ -11,9 +11,13 @@
   },
   "perfect_biomes": { "types": [ "forest" ] },
   "primitive_sapling": "twilightforest:time_sapling",
+  "drop_seeds": false,
   "features" : [
     "mushroom_rot",
     "dttwilightforest:magic_core",
     "dttwilightforest:underground_roots"
-  ]
+  ],
+  "lang_overrides": {
+    "seed": "Seed of Time"
+  }
 }

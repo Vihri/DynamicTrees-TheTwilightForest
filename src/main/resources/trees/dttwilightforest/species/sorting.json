@@ -9,6 +9,7 @@
   },
   "perfect_biomes": { "types": [ "forest" ] },
   "primitive_sapling": "twilightforest:sorting_sapling",
+  "drop_seeds": false,
   "features" : [
     "mushroom_rot",
     "dttwilightforest:magic_core"
