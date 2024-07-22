@@ -1,5 +1,8 @@
 {
   "values": [
-    "dttwilightforest:mushgloom_sapling"
+    {
+      "id": "dttwilightforest:mushgloom_sapling",
+      "required": false
+    }
   ]
 }

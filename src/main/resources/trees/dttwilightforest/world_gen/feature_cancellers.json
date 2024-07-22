@@ -7,7 +7,7 @@
     }
   },
   {
-    "select": {"names_or": ["twilightforest:dense_forest", "twilightforest:oak_savannah"] },
+    "select": {"OR": [{"name": "twilightforest:dense_forest"}, {"name":"twilightforest:oak_savannah"}] },
     "cancellers": {
       "types": [ "tree", "dttwilightforest:all_trees" ],
       "namespaces": ["twilightforest", "minecraft"]
