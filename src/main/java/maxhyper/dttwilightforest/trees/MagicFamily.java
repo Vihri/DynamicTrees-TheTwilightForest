@@ -1,13 +1,11 @@
 package maxhyper.dttwilightforest.trees;
 
-import com.ferreusveritas.dynamictrees.api.registry.RegistryHandler;
-import com.ferreusveritas.dynamictrees.api.registry.TypedRegistry;
-import com.ferreusveritas.dynamictrees.block.branch.BasicBranchBlock;
-import com.ferreusveritas.dynamictrees.block.branch.BranchBlock;
-import com.ferreusveritas.dynamictrees.block.branch.ThickBranchBlock;
-import com.ferreusveritas.dynamictrees.tree.family.Family;
-import com.ferreusveritas.dynamictrees.util.Optionals;
-import com.ferreusveritas.dynamictrees.util.ResourceLocationUtils;
+import com.dtteam.dynamictrees.api.registry.RegistryHandler;
+import com.dtteam.dynamictrees.api.registry.TypedRegistry;
+import com.dtteam.dynamictrees.block.branch.BasicBranchBlock;
+import com.dtteam.dynamictrees.block.branch.BranchBlock;
+import com.dtteam.dynamictrees.tree.family.Family;
+import com.dtteam.dynamictrees.utility.Optionals;
 import maxhyper.dttwilightforest.blocks.MagicCoreBranchBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +15,8 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static com.ferreusveritas.dynamictrees.util.ResourceLocationUtils.suffix;
+import static com.dtteam.dynamictrees.utility.ResourceLocationUtils.suffix;
+
 
 public class MagicFamily extends Family {
 
@@ -33,7 +32,7 @@ public class MagicFamily extends Family {
     @Override
     public void setupBlocks() {
         super.setupBlocks();
-        this.setCoreBranch(this.createCoreBranch(ResourceLocationUtils.suffix(this.getRegistryName(), "_core")));
+        this.setCoreBranch(this.createCoreBranch(suffix(this.getRegistryName(), "_core")));
     }
 
     protected Family setCoreBranch(final Supplier<BranchBlock> branch) {

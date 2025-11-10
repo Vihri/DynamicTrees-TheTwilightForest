@@ -1,6 +1,6 @@
 package maxhyper.dttwilightforest.blocks;
 
-import com.ferreusveritas.dynamictrees.block.branch.ThickBranchBlock;
+import com.dtteam.dynamictrees.block.branch.ThickBranchBlock;
 import maxhyper.dttwilightforest.trees.MagicFamily;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -35,17 +35,16 @@ import net.minecraft.world.level.chunk.PalettedContainerRO;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.PacketDistributor;
-import twilightforest.TFConfig;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
+import twilightforest.config.TFConfig;
 import twilightforest.data.tags.EntityTagGenerator;
 import twilightforest.init.TFBiomes;
 import twilightforest.init.TFParticleType;
 import twilightforest.init.TFSounds;
 import twilightforest.item.OreMagnetItem;
 import twilightforest.network.ParticlePacket;
-import twilightforest.network.TFPacketHandler;
 import twilightforest.util.WorldUtil;
 
 import java.util.HashMap;
@@ -78,7 +77,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        InteractionResult result = super.use(state, world, pos, player, handIn, hit);
+        InteractionResult result = use(state, world, pos, player, handIn, hit);
 
         if (result != InteractionResult.SUCCESS){
             if (!state.getValue(ACTIVE)) {
@@ -136,7 +135,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                 BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
                 if (blockEntity != null) {
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+                    blockEntity.getCapability(Capabilities.ItemHandler.BLOCK).ifPresent(iItemHandler -> {
                         if (Math.abs(blockPos.getX() - pos.getX()) <= 2 && Math.abs(blockPos.getY() - pos.getY()) <= 2 && Math.abs(blockPos.getZ() - pos.getZ()) <= 2) {
                             inputHandlers.put(iItemHandler, Vec3.upFromBottomCenterOf(blockPos, 1.9D));
                         } else outputHandlers.put(iItemHandler, Vec3.upFromBottomCenterOf(blockPos, 1.9D));
@@ -146,13 +145,13 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
         }
 
         level.getEntities((Entity)null, (new AABB(pos)).inflate(2.0), (entity) -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach((entity) -> {
-            entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent((iItemHandler) -> {
+            entity.getCapability(Capabilities.ItemHandler.ENTITY, null).ifPresent((iItemHandler) -> {
                 inputHandlers.put(iItemHandler, entity.position().add(0.0, (double)entity.getBbHeight() + 0.9, 0.0));
             });
         });
         if (!inputHandlers.isEmpty()) {
             level.getEntities((Entity)null, (new AABB(pos)).inflate(16.0), (entity) -> entity.isAlive() && entity.getType().is(EntityTagGenerator.SORTABLE_ENTITIES)).forEach((entity) -> {
-                entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent((iItemHandler) -> {
+                entity.getCapability(Capabilities.ItemHandler.ENTITY, null).ifPresent((iItemHandler) -> {
                     if (!inputHandlers.containsKey(iItemHandler)) {
                         outputHandlers.put(iItemHandler, entity.position().add(0.0, (double)entity.getBbHeight() + 0.9, 0.0));
                     }
@@ -192,7 +191,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                                     ItemStack outputStack = outputIItemHandler.getStackInSlot(j);
                                     if (firstProperStack == -1 && outputStack.isEmpty()) {
                                         firstProperStack = j;
-                                    } else if (ItemStack.isSameItemSameTags(inputStack, outputStack) && outputStack.getCount() < outputStack.getMaxStackSize() && outputStack.getCount() < outputIItemHandler.getSlotLimit(j)) {
+                                    } else if (ItemStack.isSameItemSameComponents(inputStack, outputStack) && outputStack.getCount() < outputStack.getMaxStackSize() && outputStack.getCount() < outputIItemHandler.getSlotLimit(j)) {
                                         firstProperStack = j;
                                         break;
                                     }
@@ -213,7 +212,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
                                                 double y = diff.y - 1.75 + rand.nextDouble() * 0.5;
                                                 double z = diff.z - 0.25 + rand.nextDouble() * 0.5;
                                                 particlePacket.queueParticle(TFParticleType.SORTING_PARTICLE.get(), false, xyz, (new Vec3(x, y, z)).scale(1.0 / diff.length()));
-                                                TFPacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
+                                                TFParticleType.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
                                             }
                                         }
                                     }
@@ -252,7 +251,7 @@ public class MagicCoreBranchBlock extends ThickBranchBlock {
     protected void performTransEffect(Level level, BlockPos pos, RandomSource rand){
         ResourceKey<Biome> target = TFBiomes.ENCHANTED_FOREST;
         Holder<Biome> biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(target);
-        int range = TFConfig.COMMON_CONFIG.MAGIC_TREES.transformationRange.get();
+        int range = TFConfig.CONFIG_ID.MAGIC_TREES.transformationRange.get();
 
         for(int i = 0; i < 16; ++i) {
             BlockPos dPos = WorldUtil.randomOffset(rand, pos, range, 0, range);

@@ -1,16 +1,11 @@
 package maxhyper.dttwilightforest.blocks;
 
-import com.ferreusveritas.dynamictrees.block.branch.BasicRootsBlock;
-import com.ferreusveritas.dynamictrees.block.rooty.RootyBlock;
-import com.ferreusveritas.dynamictrees.block.rooty.SoilProperties;
-import com.ferreusveritas.dynamictrees.block.rooty.SpreadableSoilProperties;
-import com.ferreusveritas.dynamictrees.tree.family.MangroveFamily;
+import com.dtteam.dynamictrees.block.branch.BasicRootsBlock;
 import maxhyper.dttwilightforest.trees.TwilightMangroveFamily;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.SpecialPlantable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -127,7 +122,7 @@ public class TwilightMangroveRootsBlock extends BasicRootsBlock {
 
     //to-do: port to base DT
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, SpecialPlantable plantable) {
         return super.canSustainPlant(state, world, pos, facing, plantable)
                 || (state.getValue(LAYER) == Layer.COVERED);
     }

@@ -1,7 +1,7 @@
 package maxhyper.dttwilightforest.growthlogic;
 
-import com.ferreusveritas.dynamictrees.api.registry.Registry;
-import com.ferreusveritas.dynamictrees.growthlogic.GrowthLogicKit;
+import com.dtteam.dynamictrees.api.registry.Registry;
+import com.dtteam.dynamictrees.systems.growthlogic.GrowthLogicKit;
 import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
 
 public class DTTFGrowthLogicKits {
