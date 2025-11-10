@@ -3,7 +3,7 @@ package maxhyper.dttwilightforest.trees;
 import com.dtteam.dynamictrees.api.registry.TypedRegistry;
 import com.dtteam.dynamictrees.block.branch.BasicRootsBlock;
 import com.dtteam.dynamictrees.block.branch.BranchBlock;
-import com.dtteam.dynamictrees.tree.family.Family;
+import com.dtteam.dynamictrees.tree.family.UndergroundRootsFamily;
 import com.dtteam.dynamictrees.utility.Optionals;
 import maxhyper.dttwilightforest.blocks.TwilightMangroveRootsBlock;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class TwilightMangroveFamily extends MangroveFamily {
 
-    public static final TypedRegistry.EntryType<Family> TYPE = TypedRegistry.newType(TwilightMangroveFamily::new);
+    public static final TypedRegistry.EntryType<UndergroundRootsFamily> TYPE = TypedRegistry.newType(TwilightMangroveFamily::new);
 
     public TwilightMangroveFamily(ResourceLocation name) {
         super(name);

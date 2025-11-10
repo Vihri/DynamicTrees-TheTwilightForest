@@ -8,11 +8,13 @@ import com.dtteam.dynamictrees.event.TypeRegistryEvent;
 import com.dtteam.dynamictrees.systems.genfeature.GenFeature;
 import com.dtteam.dynamictrees.systems.growthlogic.GrowthLogicKit;
 import com.dtteam.dynamictrees.tree.family.Family;
+import com.dtteam.dynamictrees.tree.family.UndergroundRootsFamily;
 import com.dtteam.dynamictrees.tree.species.Species;
 import maxhyper.dttwilightforest.DynamicTreesTheTwilightForest;
 import maxhyper.dttwilightforest.canceller.SimpleFeatureCanceller;
 import maxhyper.dttwilightforest.cellkits.DTTFCellKits;
 import maxhyper.dttwilightforest.genfeatures.DTTFGenFeatures;
+import maxhyper.dttwilightforest.genfeatures.UndergroundRootsGenFeature;
 import maxhyper.dttwilightforest.growthlogic.DTTFGrowthLogicKits;
 import maxhyper.dttwilightforest.trees.GigaSpruceSpecies;
 import maxhyper.dttwilightforest.trees.MagicFamily;
@@ -31,6 +33,9 @@ public class DTTFRegistries {
     @SubscribeEvent
     public static void registerFamilyTypes(final TypeRegistryEvent<Family> event) {
         event.registerType(DynamicTreesTheTwilightForest.location("magic"), MagicFamily.TYPE);
+    }
+    @SubscribeEvent
+    public static void registerUndergroundRootFamilyTypes(final TypeRegistryEvent<UndergroundRootsFamily> event) {
         event.registerType(DynamicTreesTheTwilightForest.location("mangrove"), TwilightMangroveFamily.TYPE);
     }
 
